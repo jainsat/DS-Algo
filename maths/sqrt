@@ -1,0 +1,47 @@
+/*
+
+https://tour.golang.org/flowcontrol/8
+
+If you are interested in the details of the algorithm, the z² − x is how far away z² is from where it needs to be (x), and the division by 2z is the derivative of z², to scale how much we adjust z by how quickly z² is changing. This general approach is called Newton's method. It works well for many functions but especially well for square root.)
+
+
+
+*/
+
+
+
+
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func Sqrt(x float64) float64 {
+    var z float64
+    for z = 1; !isCloseEnough(x,z); z-=(z*z - x)/(2*z) {
+	   // fmt.Println(z)
+	}
+	//fmt.Println("finally %v", z)
+	return z
+
+}
+
+func isCloseEnough(x,z float64) bool {
+    // Here also we should not compare with x - z*z directly for the sake for relativity wrt number
+    // whose square root has been computed. For very large numbers, large differences might be accepted.
+    if math.Abs(x-z*z)/(2*x) <= 0.0001 {
+	    return true
+	}
+	return false
+}
+
+
+
+func main() {
+    a := float64(1e23)
+	fmt.Println(Sqrt(a))
+	fmt.Println(math.Sqrt(a))
+}
+
